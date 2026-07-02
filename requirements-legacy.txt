@@ -1,0 +1,5 @@
+# Dependências do exemplo LEGACY_GENAI (SDK google.generativeai direto no .py)
+robotframework>=7.0
+robotframework-browser>=18.0
+google-generativeai>=0.8.3
+python-dotenv>=1.0

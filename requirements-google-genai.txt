@@ -1,0 +1,5 @@
+# Dependências do exemplo GOOGLE_GENAI (SDK atual google-genai — from google import genai)
+robotframework>=7.0
+robotframework-browser>=18.0
+google-genai>=1.0.0
+python-dotenv>=1.0
