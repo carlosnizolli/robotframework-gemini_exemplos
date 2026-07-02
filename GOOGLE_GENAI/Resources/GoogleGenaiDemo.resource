@@ -1,6 +1,7 @@
 *** Settings ***
-Documentation    Exemplo didático — validação com SDK atual google-genai (GoogleGenaiLibrary.py).
-...    Docs: https://ai.google.dev/gemini-api/docs/generate-content/get-started?hl=pt-br
+Documentation    Keywords didáticas do exemplo google-genai (GoogleGenaiLibrary.py).
+...    Gera perguntas e valida coerência pergunta/resposta com Sim ou Não.
+...    Docs do SDK: https://ai.google.dev/gemini-api/docs/generate-content/get-started?hl=pt-br
 
 Library    String
 Library    ../Resources/GoogleGenaiLibrary.py
@@ -21,7 +22,7 @@ ${GOOGLE_GENAI_TOPICO_GEOGRAFIA}    a Brazilian state and its capital city
 
 *** Keywords ***
 Valida Coerência Da Resposta Com Google Genai
-    [Documentation]    Juiz Sim/Não via SDK google-genai (padrão LIA/PRO).
+    [Documentation]    Envia pergunta e resposta ao Gemini e exige veredito Sim na primeira linha.
     [Arguments]    ${PERGUNTA}    ${CRITERIO}
     ${CTX}=    Catenate    SEPARATOR=\n
     ...    ## PERGUNTA

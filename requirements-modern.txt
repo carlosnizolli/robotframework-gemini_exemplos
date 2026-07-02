@@ -1,4 +1,4 @@
-# Dependências do exemplo ROBOTFRAMEWORK_GEMINI (lib publicada no PyPI)
+# Dependências do exemplo didático ROBOTFRAMEWORK_GEMINI (biblioteca robotframework-gemini no PyPI)
 robotframework>=7.0
 robotframework-browser>=18.0
 robotframework-gemini>=0.3.1

@@ -1,5 +1,6 @@
 *** Settings ***
-Documentation    Exemplo didático — validação com google.generativeai (SDK legado no .py).
+Documentation    Keywords didáticas do exemplo google.generativeai (LegacyGeminiLibrary.py).
+...    Gera perguntas e valida coerência pergunta/resposta com Sim ou Não.
 
 Library    String
 Library    ../Resources/LegacyGeminiLibrary.py
@@ -20,7 +21,7 @@ ${LEGACY_TOPICO_GEOGRAFIA}    a Brazilian state and its capital city
 
 *** Keywords ***
 Valida Coerência Da Resposta Com Gemini Legado
-    [Documentation]    Juiz Sim/Não via SDK google.generativeai (padrão LIA/PRO).
+    [Documentation]    Envia pergunta e resposta ao Gemini e exige veredito Sim na primeira linha.
     [Arguments]    ${PERGUNTA}    ${CRITERIO}
     ${CTX}=    Catenate    SEPARATOR=\n
     ...    ## PERGUNTA

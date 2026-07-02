@@ -1,5 +1,6 @@
 *** Settings ***
-Documentation    Exemplo didático — validação via robotframework-gemini (GeminiLibrary).
+Documentation    Keywords didáticas do exemplo robotframework-gemini (GeminiLibrary).
+...    Gera perguntas e valida coerência pergunta/resposta com Sim ou Não.
 
 Library    ../../Resources/DotenvBootstrap.py
 Library    String
@@ -31,7 +32,7 @@ Extrai Primeira Linha Do Veredito
     RETURN    ${NORM}
 
 Valida Coerência Da Resposta Com Robotframework Gemini
-    [Documentation]    Juiz Sim/Não via Gemini Evaluate Text Verdict (padrão LIA/PRO).
+    [Documentation]    Envia pergunta e resposta ao Gemini e exige veredito Sim na primeira linha.
     [Arguments]    ${PERGUNTA}    ${CRITERIO}
     ${CTX}=    Catenate    SEPARATOR=\n
     ...    ## PERGUNTA

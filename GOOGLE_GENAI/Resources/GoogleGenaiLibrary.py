@@ -1,7 +1,8 @@
 """
-Exemplo didático — SDK atual Google GenAI (pacote ``google-genai``).
+Exemplo didático — SDK atual Google GenAI (pacote ``google-genai``) em biblioteca Python customizada.
 
-Documentação: https://ai.google.dev/gemini-api/docs/generate-content/get-started?hl=pt-br
+Este repositório contém exemplos para aprender integração de Gemini com Robot Framework.
+Documentação do SDK: https://ai.google.dev/gemini-api/docs/generate-content/get-started?hl=pt-br
 
     from google import genai
     client = genai.Client()
@@ -9,7 +10,7 @@ Documentação: https://ai.google.dev/gemini-api/docs/generate-content/get-start
 
 Compare com:
 - LEGACY_GENAI/  → ``google.generativeai`` (SDK legado)
-- ROBOTFRAMEWORK_GEMINI/  → ``robotframework-gemini`` (lib Robot publicada)
+- ROBOTFRAMEWORK_GEMINI/  → ``robotframework-gemini`` (biblioteca Robot publicada)
 
 Requer: GEMINI_API_KEY (e opcionalmente GEMINI_MODEL, padrão gemini-2.5-flash).
 """

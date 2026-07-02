@@ -1,8 +1,9 @@
 *** Settings ***
-Documentation    Browser Library — site com IA para exemplos didáticos (Wolfram Alpha).
-...    Padrão LIA/PRO: pergunta no site → captura resposta → Gemini valida coerência.
-...    Wolfram Alpha responde consultas em linguagem natural sem login/captcha.
-...    Exemplos rodam com headless=false para facilitar debug visual.
+Documentation    Automação de browser compartilhada pelos exemplos didáticos deste repositório.
+...    Abre o Wolfram Alpha, consulta perguntas em linguagem natural, captura a resposta
+...    exibida na página e salva screenshot. Usado antes da validação com Gemini nas suites.
+...    Wolfram Alpha não exige login nem captcha. Browser roda com headless=false para
+...    facilitar acompanhar visualmente durante o estudo dos exemplos.
 
 Library    Browser
 Library    String

@@ -1,7 +1,10 @@
 """
-Exemplo didático — forma antiga: Robot importa um .py que chama google.generativeai direto.
+Exemplo didático — SDK legado google.generativeai em biblioteca Python customizada.
 
-Compare com GOOGLE_GENAI/ (``google-genai`` — SDK atual) e ROBOTFRAMEWORK_GEMINI/ (``robotframework-gemini``).
+Este repositório contém exemplos para aprender integração de Gemini com Robot Framework.
+Compare com:
+- GOOGLE_GENAI/  → ``google-genai`` (SDK atual)
+- ROBOTFRAMEWORK_GEMINI/  → ``robotframework-gemini`` (biblioteca Robot publicada)
 
 Requer: GEMINI_API_KEY (e opcionalmente GEMINI_MODEL, padrão gemini-2.0-flash).
 """

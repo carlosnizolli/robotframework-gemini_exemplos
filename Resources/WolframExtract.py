@@ -25,7 +25,7 @@ SCRIPT_EXTRAI_RESULTADO = r"""
 
 @library(scope="GLOBAL", auto_keywords=True)
 class WolframExtract:
-    """Extração de resultado do Wolfram Alpha para Browser Library."""
+    """Extração de resultado do Wolfram Alpha para os exemplos didáticos com Browser Library."""
 
     @keyword("Script Extrai Resultado Wolfram")
     def script_extrai_resultado_wolfram(self) -> str:

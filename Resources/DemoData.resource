@@ -1,5 +1,6 @@
 *** Settings ***
-Documentation    Dados compartilhados pelos exemplos didáticos EXEMPLOS_GEMINI.
+Documentation    Perguntas e temas de exemplo compartilhados pelas três suites didáticas.
+...    Valores fixos para CT01–CT03; o CT04 gera a pergunta dinamicamente via Gemini.
 
 
 *** Variables ***
