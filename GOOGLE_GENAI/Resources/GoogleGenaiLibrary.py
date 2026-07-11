@@ -69,7 +69,7 @@ class GoogleGenaiLibrary:
         evaluation: str,
         extra_instructions: str | None = None,
     ) -> str:
-        """Avaliação texto-only (contexto + critério). Retorna texto bruto."""
+        """Avaliação texto-only. Retorna texto bruto do modelo."""
         parts = [context, "", "## CRITÉRIO", evaluation]
         if extra_instructions:
             parts.extend(
