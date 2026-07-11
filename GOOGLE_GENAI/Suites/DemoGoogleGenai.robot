@@ -74,7 +74,7 @@ CT04 - Pergunta gerada pelo Google Genai
     [Documentation]    O Gemini gera a pergunta sobre um estado brasileiro e sua capital;
     ...    o site responde e o Gemini valida se a resposta trata do tema perguntado.
     [Tags]    didactic    exemplo_gemini    google_genai    browser    ia
-    Gera Pergunta Com Google Genai    ${GOOGLE_GENAI_TOPICO_GEOGRAFIA}
+    ${GOOGLE_GENAI_QUESTION}=    Gera Pergunta Com Google Genai    ${GOOGLE_GENAI_TOPICO_GEOGRAFIA}
     Consulta Pergunta No Site Com Ia    ${GOOGLE_GENAI_QUESTION}
     Obtem Resposta Do Site Com Ia
     Captura Screenshot Da Resposta Do Site Com Ia

@@ -17,6 +17,7 @@ ${SITE_IA_TIMEOUT}              2m
 ${SITE_IA_SLOW}                 00:00:00.300
 ${SITE_IA_RESULT_SECTION}       xpath=//section[.//h2[normalize-space()='Result' or normalize-space()='Resultado']]
 ${SITE_IA_RESULT_IMAGE}         xpath=//section[.//h2[normalize-space()='Result' or normalize-space()='Resultado']]//img
+${SITE_IA_RESPONSE}             ${EMPTY}
 
 
 *** Keywords ***

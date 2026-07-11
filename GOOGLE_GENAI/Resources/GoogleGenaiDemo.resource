@@ -10,6 +10,8 @@ Resource    ../../Resources/SiteComIa.resource
 
 
 *** Variables ***
+${SITE_IA_RESPONSE}             ${EMPTY}
+${GOOGLE_GENAI_QUESTION}        ${EMPTY}
 ${GOOGLE_GENAI_VERDICT_OUTPUT}    Responda com exatamente uma palavra na primeira linha: Sim ou Não.
 ...    Sim quando a resposta atender à intenção da pergunta.
 ...    Não somente em caso de contradição clara ou troca de tema.
