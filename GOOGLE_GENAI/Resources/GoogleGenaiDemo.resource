@@ -10,8 +10,6 @@ Resource    ../../Resources/SiteComIa.resource
 
 
 *** Variables ***
-${SITE_IA_RESPONSE}             ${EMPTY}
-${GOOGLE_GENAI_QUESTION}        ${EMPTY}
 ${GOOGLE_GENAI_VERDICT_OUTPUT}    Responda com exatamente uma palavra na primeira linha: Sim ou Não.
 ...    Sim quando a resposta atender à intenção da pergunta.
 ...    Não somente em caso de contradição clara ou troca de tema.
@@ -20,6 +18,9 @@ ${GOOGLE_GENAI_QUESTION_OUTPUT}    Uma pergunta direta em inglês simples, uma l
 ...    Sem markdown nem quebra de linha.
 
 ${GOOGLE_GENAI_TOPICO_GEOGRAFIA}    a Brazilian state and its capital city
+
+${SITE_IA_RESPONSE}             ${EMPTY}
+${GOOGLE_GENAI_QUESTION}        ${EMPTY}
 
 
 *** Keywords ***
