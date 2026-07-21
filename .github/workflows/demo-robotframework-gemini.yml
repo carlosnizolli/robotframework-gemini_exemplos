@@ -1,14 +1,13 @@
 # =============================================================================
-# Demo didático — ROBOTFRAMEWORK_GEMINI no Docker
+# Demo didático — ROBOTFRAMEWORK_GEMINI via GitHub Action
 # =============================================================================
 #
 # O que este workflow ensina:
-#   1. Usar a imagem pública ghcr.io/carlosnizolli/docker-robotframework:latest
-#      (Robot Framework, Browser Library, Xvfb e robotframework-gemini)
-#      Fonte: https://github.com/carlosnizolli/docker-robotframework
-#   2. Montar este repositório no container
-#   3. Passar GEMINI_API_KEY como secret (nunca commitar a chave)
-#   4. Publicar report.html / log.html como artifact do GitHub Actions
+#   1. Usar a Action do Marketplace:
+#      https://github.com/marketplace/actions/robot-framework-docker
+#      (imagem ghcr.io/carlosnizolli/docker-robotframework)
+#   2. Passar GEMINI_API_KEY como secret (nunca commitar a chave)
+#   3. Publicar report.html / log.html como artifact do GitHub Actions
 #
 # Quem pode executar:
 #   Só @carlosnizolli (job com if: github.actor == 'carlosnizolli').
@@ -43,12 +42,11 @@ permissions:
   contents: read
 
 env:
-  DOCKER_IMAGE: ghcr.io/carlosnizolli/docker-robotframework:latest
   REPORTS_HOST_DIR: Results/docker-robotframework-gemini
 
 jobs:
   demo-robotframework-gemini:
-    name: Suite ROBOTFRAMEWORK_GEMINI (Docker)
+    name: Suite ROBOTFRAMEWORK_GEMINI (Docker Action)
     # Só o mantenedor executa; demais actors → Skipped (sem gastar secret/cota)
     if: github.actor == 'carlosnizolli'
     runs-on: ubuntu-latest
@@ -57,12 +55,6 @@ jobs:
     steps:
       - name: Checkout — exemplos (este repositório)
         uses: actions/checkout@v4
-
-      - name: Pull da imagem Docker (GHCR)
-        run: |
-          set -euo pipefail
-          echo "Pulling ${DOCKER_IMAGE} ..."
-          docker pull "${DOCKER_IMAGE}"
 
       - name: Conferir secret GEMINI_API_KEY
         env:
@@ -90,41 +82,17 @@ jobs:
           fi
           echo "GEMINI_API_KEY encontrada (valor não é exibido)."
 
-      - name: Preparar pasta de relatórios (UID 1000 da imagem precisa escrever)
-        run: |
-          mkdir -p "${REPORTS_HOST_DIR}"
-          # Runner do GitHub Actions costuma NÃO ser UID 1000; a imagem sim.
-          chmod 777 "${REPORTS_HOST_DIR}"
-
-      - name: Executar suite no container
+      - name: Run Robot Framework (Marketplace Action)
+        uses: carlosnizolli/robotframework-docker-actions@v1
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # Alias oficial: aponta para o Flash mais recente (evita 404 em modelos aposentados para contas novas)
+          # Alias oficial: aponta para o Flash mais recente
           GEMINI_MODEL: gemini-flash-latest
-          ROBOT_OPTIONS_INPUT: ${{ inputs.robot_options }}
-        run: |
-          set -euo pipefail
-
-          # Caminhos DENTRO do container (repo montado em /workspace)
-          TESTS=/workspace/ROBOTFRAMEWORK_GEMINI/Suites/DemoRobotframeworkGemini.robot
-          REPORTS=/opt/robotframework/reports
-
-          echo "Suite:  ${TESTS}"
-          echo "Image:  ${DOCKER_IMAGE}"
-          echo "Model:  ${GEMINI_MODEL}"
-          echo "Opts:   ${ROBOT_OPTIONS_INPUT:-<(vazio)>}"
-
-          docker run --rm \
-            --name demo-robotframework-gemini \
-            -e GEMINI_API_KEY \
-            -e GEMINI_MODEL \
-            -e ROBOT_TESTS_DIR="${TESTS}" \
-            -e ROBOT_REPORTS_DIR="${REPORTS}" \
-            -e ROBOT_OPTIONS="${ROBOT_OPTIONS_INPUT}" \
-            -e ROBOT_THREADS=1 \
-            -v "${{ github.workspace }}:/workspace:ro" \
-            -v "${{ github.workspace }}/${REPORTS_HOST_DIR}:${REPORTS}" \
-            "${DOCKER_IMAGE}"
+        with:
+          tests_path: ROBOTFRAMEWORK_GEMINI/Suites/DemoRobotframeworkGemini.robot
+          reports_path: ${{ env.REPORTS_HOST_DIR }}
+          options: ${{ inputs.robot_options }}
+          threads: "1"
 
       - name: Upload dos artefatos Robot (sempre, para depurar falhas)
         if: always()
