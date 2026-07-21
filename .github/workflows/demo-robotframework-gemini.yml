@@ -83,7 +83,7 @@ jobs:
           echo "GEMINI_API_KEY encontrada (valor não é exibido)."
 
       - name: Run Robot Framework (Marketplace Action)
-        uses: carlosnizolli/robotframework-docker-actions@v1
+        uses: carlosnizolli/robotframework-docker-actions@v1.0.1
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           # Alias oficial: aponta para o Flash mais recente
