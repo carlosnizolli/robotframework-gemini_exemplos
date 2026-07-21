@@ -6,23 +6,20 @@
 #   1. Usar a imagem https://github.com/carlosnizolli/docker-robotframework
 #      (já inclui Robot Framework, Browser Library, Xvfb e robotframework-gemini)
 #   2. Montar este repositório no container
-#   3. Cada pessoa usa a PRÓPRIA chave no Run workflow (sem secret no repo)
+#   3. Passar GEMINI_API_KEY como secret (nunca commitar a chave)
 #   4. Publicar report.html / log.html como artifact do GitHub Actions
 #
-# Por que NÃO há secret GEMINI_API_KEY no repositório?
-#   Uma secret compartilhada permitiria que qualquer um que dispare o workflow
-#   consumisse a cota da chave do mantenedor. Aqui cada um cola a sua.
-#
-# ⚠️ Segurança do input (leia antes de colar a chave):
-#   Em repositório PÚBLICO, o valor do input fica visível no histórico do run
-#   para quem puder ver Actions. Prefira chave de teste / cota baixa.
-#   O workflow mascara a chave nos logs (::add-mask::), mas isso NÃO esconde
-#   o valor já gravado nos inputs do workflow_dispatch.
+# Pré-requisito (uma vez no GitHub):
+#   Settings → Secrets and variables → Actions → New repository secret
+#   Nome:  GEMINI_API_KEY
+#   Valor: chave do Google AI Studio
 #
 # Como rodar:
 #   Actions → "Demo ROBOTFRAMEWORK_GEMINI" → Run workflow
-#   gemini_api_key = sua chave (https://aistudio.google.com/apikey)
-#   (opcional) robot_options = -t CT01*   # smoke sem Gemini / sem chave
+#
+# Por que só workflow_dispatch?
+#   Os testes CT02–CT04 chamam a API Gemini; sem a secret o job falha de propósito
+#   com mensagem clara. Não roda em todo push para não gastar cota sem chave.
 # =============================================================================
 
 name: Demo ROBOTFRAMEWORK_GEMINI
@@ -30,11 +27,6 @@ name: Demo ROBOTFRAMEWORK_GEMINI
 on:
   workflow_dispatch:
     inputs:
-      gemini_api_key:
-        description: "Sua Gemini API key (obrigatória exceto com -t CT01*). Em repo público o input fica no histórico — use chave de teste."
-        required: false
-        default: ""
-        type: string
       robot_options:
         description: "Opções extras do Robot (ex.: -t CT01* para smoke sem Gemini)"
         required: false
@@ -75,49 +67,31 @@ jobs:
             -t "${DOCKER_IMAGE}" \
             .docker-robotframework
 
-      - name: Conferir GEMINI_API_KEY (input do Run workflow)
-        id: resolve_key
+      - name: Conferir secret GEMINI_API_KEY
         env:
-          GEMINI_API_KEY: ${{ inputs.gemini_api_key }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ROBOT_OPTIONS_INPUT: ${{ inputs.robot_options }}
         run: |
           set -euo pipefail
-
-          KEY="${GEMINI_API_KEY:-}"
-
-          if [ -n "${KEY}" ]; then
-            echo "::add-mask::${KEY}"
-          fi
-
-          # CT01 é smoke de browser e não chama Gemini — permite rodar sem chave.
+          # CT01 é smoke de browser e não chama Gemini — permite rodar sem secret.
           if echo " ${ROBOT_OPTIONS_INPUT} " | grep -Eq '[[:space:]]-t[[:space:]]+CT01'; then
-            echo "Input aponta para CT01* — chave Gemini opcional neste run."
-            {
-              echo "key<<EOF"
-              echo "${KEY}"
-              echo "EOF"
-            } >> "${GITHUB_OUTPUT}"
+            echo "Input aponta para CT01* — secret Gemini opcional neste run."
             exit 0
           fi
-
-          if [ -z "${KEY}" ]; then
-            echo "::error::Informe gemini_api_key no Run workflow."
+          if [ -z "${GEMINI_API_KEY:-}" ]; then
+            echo "::error::Secret GEMINI_API_KEY não configurada."
             echo ""
-            echo "  1. Obtenha uma chave em https://aistudio.google.com/apikey"
-            echo "  2. Actions → Demo ROBOTFRAMEWORK_GEMINI → Run workflow"
-            echo "  3. Cole a chave no campo gemini_api_key"
+            echo "Como criar:"
+            echo "  1. Obtenha a chave em https://aistudio.google.com/apikey"
+            echo "  2. No GitHub: Settings → Secrets and variables → Actions"
+            echo "  3. New repository secret → nome GEMINI_API_KEY"
+            echo "  4. Rode de novo: Actions → Demo ROBOTFRAMEWORK_GEMINI → Run workflow"
             echo ""
-            echo "Sem chave, dá para testar só o browser:"
+            echo "Sem chave, dá para testar só o browser com o input:"
             echo "  robot_options = -t CT01*"
             exit 1
           fi
-
-          echo "GEMINI_API_KEY recebida via input (valor não é exibido)."
-          {
-            echo "key<<EOF"
-            echo "${KEY}"
-            echo "EOF"
-          } >> "${GITHUB_OUTPUT}"
+          echo "GEMINI_API_KEY encontrada (valor não é exibido)."
 
       - name: Preparar pasta de relatórios (UID 1000 da imagem precisa escrever)
         run: |
@@ -127,7 +101,7 @@ jobs:
 
       - name: Executar suite no container
         env:
-          GEMINI_API_KEY: ${{ steps.resolve_key.outputs.key }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ROBOT_OPTIONS_INPUT: ${{ inputs.robot_options }}
         run: |
           set -euo pipefail
