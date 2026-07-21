@@ -10,6 +10,11 @@
 #   3. Passar GEMINI_API_KEY como secret (nunca commitar a chave)
 #   4. Publicar report.html / log.html como artifact do GitHub Actions
 #
+# Quem pode executar:
+#   Só @carlosnizolli (job com if: github.actor == 'carlosnizolli').
+#   Outros usuários: o workflow aparece, mas o job fica Skipped e a secret
+#   não é consumida. Quem tiver só Read no repo nem consegue clicar em Run.
+#
 # Pré-requisito (uma vez no GitHub):
 #   Settings → Secrets and variables → Actions → New repository secret
 #   Nome:  GEMINI_API_KEY
@@ -44,6 +49,8 @@ env:
 jobs:
   demo-robotframework-gemini:
     name: Suite ROBOTFRAMEWORK_GEMINI (Docker)
+    # Só o mantenedor executa; demais actors → Skipped (sem gastar secret/cota)
+    if: github.actor == 'carlosnizolli'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
