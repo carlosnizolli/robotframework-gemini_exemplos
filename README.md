@@ -20,6 +20,7 @@ pip install robotframework-gemini
 | [docs (en)](https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.en.md) | Keyword reference |
 | [RobotToPGListener](https://github.com/carlosnizolli/RobotToPGListener) | Persist RF results to PostgreSQL |
 | [docker-robotframework](https://github.com/carlosnizolli/docker-robotframework) | Docker image for RF + Browser |
+| [robotframework-docker-actions](https://github.com/carlosnizolli/robotframework-docker-actions) | GitHub Action to run tests with the Docker image in CI |
 | [RoboCop](https://github.com/carlosnizolli/RoboCop) | Robocop GitHub Action |
 
 ---
