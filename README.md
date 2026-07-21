@@ -76,7 +76,7 @@ rfbrowser init
 export GEMINI_API_KEY="your-key-here"
 # or create a .env file in the repo root:
 # GEMINI_API_KEY=your-key-here
-# GEMINI_MODEL=gemini-2.5-flash   # optional
+# GEMINI_MODEL=gemini-flash-latest   # optional
 
 # 6) Run the suite
 cd ROBOTFRAMEWORK_GEMINI
@@ -128,16 +128,15 @@ Suggested `.env`:
 
 ```env
 GEMINI_API_KEY=your-key-here
-# GEMINI_MODEL=gemini-2.5-flash
+# GEMINI_MODEL=gemini-flash-latest
 ```
 
 Do **not** commit `.env` or real keys.
 
-Default models in the custom libraries:
+Default models in this repo (when `GEMINI_MODEL` is unset):
 
-- `GOOGLE_GENAI` → `gemini-2.5-flash`
-- `LEGACY_GENAI` → `gemini-2.0-flash`
-- `ROBOTFRAMEWORK_GEMINI` → whatever `robotframework-gemini` / your env configures
+- `GOOGLE_GENAI` / `LEGACY_GENAI` → `gemini-flash-latest`
+- `ROBOTFRAMEWORK_GEMINI` → library default, or set `GEMINI_MODEL` (CI uses `gemini-flash-latest`)
 
 ## How to run (all suites)
 

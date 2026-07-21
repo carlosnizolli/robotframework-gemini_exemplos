@@ -3,8 +3,9 @@
 # =============================================================================
 #
 # O que este workflow ensina:
-#   1. Usar a imagem https://github.com/carlosnizolli/docker-robotframework
-#      (já inclui Robot Framework, Browser Library, Xvfb e robotframework-gemini)
+#   1. Usar a imagem pública ghcr.io/carlosnizolli/docker-robotframework:latest
+#      (Robot Framework, Browser Library, Xvfb e robotframework-gemini)
+#      Fonte: https://github.com/carlosnizolli/docker-robotframework
 #   2. Montar este repositório no container
 #   3. Passar GEMINI_API_KEY como secret (nunca commitar a chave)
 #   4. Publicar report.html / log.html como artifact do GitHub Actions
@@ -37,35 +38,24 @@ permissions:
   contents: read
 
 env:
-  # Tag local da imagem construída a partir do repositório docker-robotframework
-  DOCKER_IMAGE: robotframework-qa:ci
+  DOCKER_IMAGE: ghcr.io/carlosnizolli/docker-robotframework:latest
   REPORTS_HOST_DIR: Results/docker-robotframework-gemini
 
 jobs:
   demo-robotframework-gemini:
     name: Suite ROBOTFRAMEWORK_GEMINI (Docker)
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
 
     steps:
       - name: Checkout — exemplos (este repositório)
         uses: actions/checkout@v4
 
-      # A imagem ainda não é publicada em um registry público neste exemplo.
-      # Em produção você pode trocar este passo por: docker pull <sua-imagem>
-      - name: Checkout — docker-robotframework (fonte da imagem)
-        uses: actions/checkout@v4
-        with:
-          repository: carlosnizolli/docker-robotframework
-          path: .docker-robotframework
-
-      - name: Build da imagem Docker (Robot + Browser + robotframework-gemini)
+      - name: Pull da imagem Docker (GHCR)
         run: |
           set -euo pipefail
-          echo "Building ${DOCKER_IMAGE} from carlosnizolli/docker-robotframework ..."
-          DOCKER_BUILDKIT=1 docker build \
-            -t "${DOCKER_IMAGE}" \
-            .docker-robotframework
+          echo "Pulling ${DOCKER_IMAGE} ..."
+          docker pull "${DOCKER_IMAGE}"
 
       - name: Conferir secret GEMINI_API_KEY
         env:
@@ -102,6 +92,8 @@ jobs:
       - name: Executar suite no container
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Alias oficial: aponta para o Flash mais recente (evita 404 em modelos aposentados para contas novas)
+          GEMINI_MODEL: gemini-flash-latest
           ROBOT_OPTIONS_INPUT: ${{ inputs.robot_options }}
         run: |
           set -euo pipefail
@@ -112,11 +104,13 @@ jobs:
 
           echo "Suite:  ${TESTS}"
           echo "Image:  ${DOCKER_IMAGE}"
+          echo "Model:  ${GEMINI_MODEL}"
           echo "Opts:   ${ROBOT_OPTIONS_INPUT:-<(vazio)>}"
 
           docker run --rm \
             --name demo-robotframework-gemini \
             -e GEMINI_API_KEY \
+            -e GEMINI_MODEL \
             -e ROBOT_TESTS_DIR="${TESTS}" \
             -e ROBOT_REPORTS_DIR="${REPORTS}" \
             -e ROBOT_OPTIONS="${ROBOT_OPTIONS_INPUT}" \

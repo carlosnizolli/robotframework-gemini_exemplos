@@ -19,7 +19,7 @@ Compare com:
   (biblioteca Robot publicada)
 
 Requer: GEMINI_API_KEY (e opcionalmente GEMINI_MODEL,
-padrão gemini-2.5-flash).
+padrão gemini-flash-latest).
 """
 
 from __future__ import annotations
@@ -43,7 +43,7 @@ class GoogleGenaiLibrary:
     def __init__(self, api_key: str | None = None, model: str | None = None):
         self.api_key = (api_key or os.getenv("GEMINI_API_KEY") or "").strip()
         self.model_name = (
-            model or os.getenv("GEMINI_MODEL") or "gemini-2.5-flash"
+            model or os.getenv("GEMINI_MODEL") or "gemini-flash-latest"
         ).strip()
         self._client = None
 

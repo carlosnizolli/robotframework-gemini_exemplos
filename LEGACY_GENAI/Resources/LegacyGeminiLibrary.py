@@ -6,7 +6,7 @@ Compare com:
 - GOOGLE_GENAI/  → ``google-genai`` (SDK atual)
 - ROBOTFRAMEWORK_GEMINI/  → ``robotframework-gemini`` (biblioteca Robot publicada)
 
-Requer: GEMINI_API_KEY (e opcionalmente GEMINI_MODEL, padrão gemini-2.0-flash).
+Requer: GEMINI_API_KEY (e opcionalmente GEMINI_MODEL, padrão gemini-flash-latest).
 """
 
 from __future__ import annotations
@@ -31,7 +31,9 @@ class LegacyGeminiLibrary:
         self.api_key = (api_key or os.getenv("GEMINI_API_KEY") or "").strip()
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY não configurada")
-        self.model_name = (model or os.getenv("GEMINI_MODEL") or "gemini-2.0-flash").strip()
+        self.model_name = (
+            model or os.getenv("GEMINI_MODEL") or "gemini-flash-latest"
+        ).strip()
         genai.configure(api_key=self.api_key)
         self._model = genai.GenerativeModel(self.model_name)
 
