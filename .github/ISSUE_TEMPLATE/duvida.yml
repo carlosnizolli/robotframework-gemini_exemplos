@@ -1,0 +1,58 @@
+name: Dúvida / Question
+description: Tire dúvidas sobre os exemplos didáticos, instalação ou execução.
+title: "[dúvida] "
+labels: ["dúvida", "question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por abrir uma issue. Este repositório é **didático** — use o template abaixo para facilitar a resposta.
+
+        Thanks for opening an issue. This repo is **educational** — the form below helps us answer faster.
+
+  - type: dropdown
+    id: example
+    attributes:
+      label: Qual exemplo? / Which example?
+      description: Pasta ou abordagem relacionada à dúvida.
+      options:
+        - ROBOTFRAMEWORK_GEMINI (biblioteca robotframework-gemini)
+        - GOOGLE_GENAI (SDK google-genai)
+        - LEGACY_GENAI (SDK google.generativeai)
+        - Workflow GitHub Actions / Docker
+        - Geral / README / instalação
+        - Outro
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Sua dúvida / Your question
+      description: Descreva o que você tentou e o que não ficou claro.
+      placeholder: |
+        Ex.: Como configurar GEMINI_API_KEY no Linux?
+        Ex.: Por que o CT02 falha com 404 no modelo?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto (opcional) / Context (optional)
+      description: SO, Python, comando usado, trecho de log (sem colar API keys).
+      placeholder: |
+        - SO:
+        - Python:
+        - Comando:
+        - Erro / log (sem GEMINI_API_KEY):
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Li o README / README.pt-BR.md
+          required: false
+        - label: Não incluí chave de API, token ou secret nesta issue
+          required: true

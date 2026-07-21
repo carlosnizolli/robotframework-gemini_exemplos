@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentação / Docs
+    url: https://github.com/carlosnizolli/robotframework-gemini_exemplos#readme
+    about: Leia o README (EN) e o README.pt-BR.md antes de abrir a issue.
+  - name: Keywords robotframework-gemini (pt-BR)
+    url: https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.pt-BR.md
+    about: Referência de keywords da biblioteca.
+  - name: Keywords robotframework-gemini (EN)
+    url: https://github.com/carlosnizolli/robotframework-gemini/blob/main/docs/KEYWORDS.en.md
+    about: Keyword reference for the library.
